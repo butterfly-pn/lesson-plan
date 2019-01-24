@@ -83,7 +83,9 @@ class App extends Component {
       <div className="App">
         <select onChange={e => this.setState({ day: e.target.value })}>
           {weekDays.map((day, i) => (
-            <option value={i}>{weekDaysToPolish[day]}</option>
+            <option key={i} value={i}>
+              {weekDaysToPolish[day]}
+            </option>
           ))}
         </select>
         <select
@@ -93,9 +95,10 @@ class App extends Component {
           value={this.state.currentClass}
         >
           {classes.map(c => (
-            <option>{c}</option>
+            <option key={c}>{c}</option>
           ))}
         </select>
+        <div id="pwa">Install on phone</div>
         {this.state.loading ? (
           <h1>I'M WORKING</h1>
         ) : this.state.plan ? (
