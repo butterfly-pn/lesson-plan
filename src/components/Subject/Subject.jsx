@@ -71,6 +71,7 @@ const Box = styled.div`
   min-width: 250px;
   max-width: 350px;
   border-radius: 30px;
+  position: relative;
 `;
 
 /**
@@ -101,8 +102,11 @@ export default class Subject extends React.Component {
         ) : this.props.next ? (
           <h2 className={styles.next}>Next</h2>
         ) : null}
-        <p className={styles["subject-name"]}>{this.getName()}</p>
+        <p className={styles["subject-name"]}>{this.getName() || "Free!"}</p>
         <p className={styles["subject-classroom"]}>{this.props.classroom}</p>
+        <div className={styles.hour_wrapper}>
+          <div className={styles.hour}>{this.props.hour}</div>
+        </div>
       </Box>
     );
   }

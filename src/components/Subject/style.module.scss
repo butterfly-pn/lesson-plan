@@ -39,3 +39,12 @@
     font-size: 20px;
   }
 }
+
+.hour {
+  position: absolute;
+  font-size: 150px;
+  overflow: hidden;
+  opacity: 0.2;
+  top: -100px;
+  right: -10px;
+}

@@ -14,31 +14,6 @@ const weekDaysToPolish = {
 
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-const classToUrl = {
-  "1A": "o1",
-  "1B": "o2",
-  "1C": "o3",
-  "1D": "o4",
-  "1E": "o5",
-  "2A": "o6",
-  "2B": "o7",
-  "2C": "o8",
-  "2D": "o9",
-  "2E": "o10",
-  "3A": "o11",
-  "3B": "o12",
-  "3C": "o13",
-  "3D": "o14",
-  "3E": "o15",
-  "3F": "o16",
-  "4A": "o17",
-  "4B": "o18",
-  "4C": "o19",
-  "4D": "o20",
-  "4E": "o21",
-  "4F": "o22"
-};
-
 const classes = [
   "1A",
   "1B",
@@ -69,14 +44,16 @@ class App extends Component {
     super(props);
     this.state = {
       plan: null,
-      day: "Poniedziałek",
-      currentClass: "2E"
+      day: 0,
+      currentClass: "2E",
+      loading: true
     };
     this.getPlan();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentClass !== this.state.currentClass) {
+      this.setState({ loading: true });
       this.getPlan();
     }
   }
@@ -88,15 +65,15 @@ class App extends Component {
         const plan = xhr.responseText;
         let parsed = tabletojson.convert(plan);
 
-        this.setState({ plan: parsed[2] });
+        this.setState({ plan: parsed[2], loading: false });
       }
     };
     // Using outside service becouse of CORS policy
     xhr.open(
       "GET",
-      `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/${
-        classToUrl[this.state.currentClass]
-      }.html`
+      `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/o${classes.indexOf(
+        this.state.currentClass
+      ) + 1}.html`
     );
     xhr.send();
   };
@@ -105,8 +82,8 @@ class App extends Component {
     return (
       <div className="App">
         <select onChange={e => this.setState({ day: e.target.value })}>
-          {weekDays.map(day => (
-            <option>{weekDaysToPolish[day]}</option>
+          {weekDays.map((day, i) => (
+            <option value={i}>{weekDaysToPolish[day]}</option>
           ))}
         </select>
         <select
@@ -119,28 +96,25 @@ class App extends Component {
             <option>{c}</option>
           ))}
         </select>
-        {this.state.plan
-          ? this.state.plan.map(row => {
-              if (row[this.state.day]) {
-                let subject = row[this.state.day].split(" ");
-                console.log(subject);
-                const classroom = subject.pop();
-                return (
-                  <Subject
-                    key={row.Godz + row[this.state.day]}
-                    name={row[this.state.day].slice(
-                      0,
-                      row[this.state.day].length - classroom.length
-                    )}
-                    classroom={classroom}
-                    color="#B036C3"
-                  />
-                );
-              } else {
-                return null;
-              }
-            })
-          : null}
+        {this.state.loading ? (
+          <h1>I'M WORKING</h1>
+        ) : this.state.plan ? (
+          this.state.plan.map(row => {
+            // Filter row to display only data from current day.
+            const rowData = row[weekDaysToPolish[weekDays[this.state.day]]];
+            let subject = rowData.split(" ");
+            const classroom = subject.pop();
+            return (
+              <Subject
+                key={row.Godz + rowData}
+                name={rowData.slice(0, rowData.length - classroom.length)}
+                classroom={classroom}
+                hour={row.Godz.split("-")[0]}
+                color="#B036C3"
+              />
+            );
+          })
+        ) : null}
       </div>
     );
   }
