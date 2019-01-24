@@ -1,0 +1,41 @@
+.text {
+  margin: 0;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.now {
+  @extend .text;
+  font-weight: bold;
+  font-size: 36px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 0;
+}
+
+.next {
+  @extend .text;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.subject {
+  @extend .text;
+  margin-left: 18px;
+  margin-right: 18px;
+  line-height: 35px;
+  overflow: hidden;
+
+  &-name {
+    @extend .subject;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  &-classroom {
+    @extend .subject;
+    font-size: 20px;
+  }
+}

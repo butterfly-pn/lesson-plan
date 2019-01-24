@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Subject /> Test block 1`] = `
+<div
+  className="sc-bdVaJa hLUNkD"
+>
+  <h2
+    className="next"
+  >
+    Next
+  </h2>
+  <p
+    className="subject-name"
+  >
+    Math
+  </p>
+  <p
+    className="subject-classroom"
+  >
+    16
+  </p>
+</div>
+`;
+
+exports[`<Subject /> Test next block 1`] = `
+<div
+  className="sc-bdVaJa hLUNkD"
+>
+  <h2
+    className="next"
+  >
+    Next
+  </h2>
+  <p
+    className="subject-name"
+  >
+    Math
+  </p>
+  <p
+    className="subject-classroom"
+  >
+    16
+  </p>
+</div>
+`;
+
+exports[`<Subject /> Test now block 1`] = `
+<div
+  className="sc-bdVaJa hLUNkD"
+>
+  <h1
+    className="now"
+  >
+    Now
+  </h1>
+  <p
+    className="subject-name"
+  >
+    Math
+  </p>
+  <p
+    className="subject-classroom"
+  >
+    16
+  </p>
+</div>
+`;
