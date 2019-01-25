@@ -67,13 +67,15 @@ const Box = styled.div`
   font-size: 36px;
   text-align: left;
   padding: 27px;
-  margin: 18px;
+  margin: 8px;
+  width: 100%;
   min-width: 250px;
   max-width: 350px;
   min-height: 95px;
   box-sizing: border-box;
   border-radius: 30px;
   position: relative;
+  overflow: hidden;
 `;
 
 /**
@@ -106,11 +108,9 @@ export default class Subject extends React.Component {
         ) : null}
         <p className={styles["subject-name"]}>{this.getName() || "Free!"}</p>
         <p className={styles["subject-classroom"]}>{this.props.classroom}</p>
-        {this.props.hour !== "7:10" ? (
-          <div className={styles.hour_wrapper}>
-            <div className={styles.hour}>{this.props.hour}</div>
-          </div>
-        ) : null}
+        <div className={styles.hour_wrapper}>
+          <div className={styles.hour}>{this.props.hour}</div>
+        </div>
       </Box>
     );
   }

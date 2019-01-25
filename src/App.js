@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import tabletojson from "tabletojson";
 
 import "./App.css";
-import Subject from "./components/Subject/Subject";
+import Day from "./components/Day/Day";
 
 const weekDaysToPolish = {
   Monday: "Poniedziałek",
@@ -42,14 +42,40 @@ const classes = [
 class App extends Component {
   constructor(props) {
     super(props);
+    this.currentDayRef = React.createRef();
     this.state = {
-      plan: null,
-      day: 0,
-      currentClass: "2E",
+      plan: this.getPlanFromLocalStorage(),
+      day: this.getCurrentDay(),
+      currentClass: localStorage.getItem("plan-klasa") || "2E",
       loading: true
     };
-    this.getPlan();
+    if (!this.state.plan) {
+      this.getPlan();
+    } else {
+      this.state.loading = false;
+    }
   }
+
+  getPlanFromLocalStorage = () => {
+    let c = localStorage.getItem("plan-klasa") || "2E";
+    let plan = JSON.parse(localStorage.getItem("plan" + c));
+    if (plan) {
+      return plan.plan;
+    }
+    return null;
+  };
+
+  setClass = c => {
+    localStorage.setItem("plan-klasa", c);
+    this.setState({ currentClass: c });
+    return c;
+  };
+
+  getCurrentDay = () => {
+    let d = new Date();
+    let n = d.getDay();
+    return n - 1;
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentClass !== this.state.currentClass) {
@@ -59,38 +85,39 @@ class App extends Component {
   }
 
   getPlan = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const plan = xhr.responseText;
-        let parsed = tabletojson.convert(plan);
-
-        this.setState({ plan: parsed[2], loading: false });
-      }
-    };
-    // Using outside service becouse of CORS policy
-    xhr.open(
-      "GET",
-      `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/o${classes.indexOf(
-        this.state.currentClass
-      ) + 1}.html`
-    );
-    xhr.send();
+    let plan = localStorage.getItem("plan" + this.state.currentClass);
+    if (plan && Date.now() - JSON.parse(plan).date < 604800000) {
+      this.setState({ plan: JSON.parse(plan).plan, loading: false });
+    } else {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const plan = xhr.responseText;
+          let parsed = tabletojson.convert(plan);
+          localStorage.setItem(
+            "plan" + this.state.currentClass,
+            JSON.stringify({ plan: parsed[2], date: Date.now() })
+          );
+          this.setState({ plan: parsed[2], loading: false });
+        }
+      };
+      // Using outside service becouse of CORS policy
+      xhr.open(
+        "GET",
+        `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/o${classes.indexOf(
+          this.state.currentClass
+        ) + 1}.html`
+      );
+      xhr.send();
+    }
   };
 
   render() {
     return (
       <div className="App">
-        <select onChange={e => this.setState({ day: e.target.value })}>
-          {weekDays.map((day, i) => (
-            <option key={i} value={i}>
-              {weekDaysToPolish[day]}
-            </option>
-          ))}
-        </select>
         <select
           onChange={e => {
-            this.setState({ currentClass: e.target.value });
+            this.setClass(e.target.value);
           }}
           value={this.state.currentClass}
         >
@@ -102,21 +129,27 @@ class App extends Component {
         {this.state.loading ? (
           <h1>I'M WORKING</h1>
         ) : this.state.plan ? (
-          this.state.plan.map(row => {
-            // Filter row to display only data from current day.
-            const rowData = row[weekDaysToPolish[weekDays[this.state.day]]];
-            let subject = rowData.split(" ");
-            const classroom = subject.pop();
-            return (
-              <Subject
-                key={row.Godz + rowData}
-                name={rowData.slice(0, rowData.length - classroom.length)}
-                classroom={classroom}
-                hour={row.Godz.split("-")[0]}
-                color="#B036C3"
+          <div className="container">
+            {weekDays.map((day, i) => (
+              <Day
+                id={i}
+                key={i}
+                day={day}
+                subjects={this.state.plan.map(row => {
+                  // Filter row to display only data from current day.
+                  const rowData = row[weekDaysToPolish[day]];
+                  let subject = rowData.split(" ");
+                  const classroom = subject.pop();
+                  return {
+                    key: day + row.Godz,
+                    name: rowData.slice(0, rowData.length - classroom.length),
+                    classroom: classroom,
+                    hour: row.Godz.split("-")[0]
+                  };
+                })}
               />
-            );
-          })
+            ))}
+          </div>
         ) : null}
       </div>
     );
