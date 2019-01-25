@@ -1,6 +1,6 @@
-# Lesson plan - plan lekcji
+# Lesson plan - plan lekcji ([https://plan-zsk.netlify.com](https://plan-zsk.netlify.com))
 
-Parser szkolnego planu lekcji pozwalający na dostęp offline dzięki PWA. Aplikacja zrobiona za pomocą `create-react-app`
+Parser szkolnego planu lekcji pozwalający na dostęp offline dzięki PWA. Aplikacja zrobiona za pomocą `create-react-app`.
 
 ## Development
 
