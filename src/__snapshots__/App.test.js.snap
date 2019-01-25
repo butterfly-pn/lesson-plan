@@ -7,135 +7,110 @@ exports[`<App /> Snapshot 1`] = `
   <select
     onChange={[Function]}
   >
-    <option>
+    <option
+      value={0}
+    >
       Poniedziałek
     </option>
-    <option>
+    <option
+      value={1}
+    >
       Wtorek
     </option>
-    <option>
+    <option
+      value={2}
+    >
       Środa
     </option>
-    <option>
+    <option
+      value={3}
+    >
       Czwartek
     </option>
-    <option>
+    <option
+      value={4}
+    >
       Piątek
     </option>
   </select>
   <select
     onChange={[Function]}
+    value="2E"
   >
-    <option
-      selected={false}
-    >
+    <option>
       1A
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       1B
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       1C
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       1D
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       1E
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       2A
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       2B
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       2C
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       2D
     </option>
-    <option
-      selected={true}
-    >
+    <option>
       2E
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3A
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3B
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3C
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3D
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3E
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       3F
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4A
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4B
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4C
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4D
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4E
     </option>
-    <option
-      selected={false}
-    >
+    <option>
       4F
     </option>
   </select>
+  <div
+    id="pwa"
+  >
+    Install on phone
+  </div>
+  <h1>
+    I'M WORKING
+  </h1>
 </div>
 `;
