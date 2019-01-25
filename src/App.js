@@ -113,7 +113,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.plan);
     return (
       <div className="App">
         <select
