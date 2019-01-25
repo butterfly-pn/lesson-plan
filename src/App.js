@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import tabletojson from "tabletojson";
 
 import "./App.css";
-import Subject from "./components/Subject/Subject";
+import Day from "./components/Day/Day";
 
 const weekDaysToPolish = {
   Monday: "Poniedziałek",
@@ -42,14 +42,21 @@ const classes = [
 class App extends Component {
   constructor(props) {
     super(props);
+    this.currentDayRef = React.createRef();
     this.state = {
       plan: null,
-      day: 0,
+      day: this.getCurrentDay(),
       currentClass: "2E",
       loading: true
     };
     this.getPlan();
   }
+
+  getCurrentDay = () => {
+    let d = new Date();
+    let n = d.getDay();
+    return n;
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentClass !== this.state.currentClass) {
@@ -81,13 +88,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <select onChange={e => this.setState({ day: e.target.value })}>
-          {weekDays.map((day, i) => (
-            <option key={i} value={i}>
-              {weekDaysToPolish[day]}
-            </option>
-          ))}
-        </select>
         <select
           onChange={e => {
             this.setState({ currentClass: e.target.value });
@@ -102,21 +102,27 @@ class App extends Component {
         {this.state.loading ? (
           <h1>I'M WORKING</h1>
         ) : this.state.plan ? (
-          this.state.plan.map(row => {
-            // Filter row to display only data from current day.
-            const rowData = row[weekDaysToPolish[weekDays[this.state.day]]];
-            let subject = rowData.split(" ");
-            const classroom = subject.pop();
-            return (
-              <Subject
-                key={row.Godz + rowData}
-                name={rowData.slice(0, rowData.length - classroom.length)}
-                classroom={classroom}
-                hour={row.Godz.split("-")[0]}
-                color="#B036C3"
+          <div className="container">
+            {weekDays.map((day, i) => (
+              <Day
+                id={i}
+                key={day}
+                day={day}
+                subjects={this.state.plan.map(row => {
+                  // Filter row to display only data from current day.
+                  const rowData = row[weekDaysToPolish[day]];
+                  let subject = rowData.split(" ");
+                  const classroom = subject.pop();
+                  return {
+                    key: row.Godz + rowData,
+                    name: rowData.slice(0, rowData.length - classroom.length),
+                    classroom: classroom,
+                    hour: row.Godz.split("-")[0]
+                  };
+                })}
               />
-            );
-          })
+            ))}
+          </div>
         ) : null}
       </div>
     );

@@ -2,7 +2,7 @@
 
 exports[`<Subject /> Test block 1`] = `
 <div
-  className="sc-bdVaJa kVJIWL"
+  className="sc-bdVaJa lcmtfW"
 >
   <h2
     className="next"
@@ -31,7 +31,7 @@ exports[`<Subject /> Test block 1`] = `
 
 exports[`<Subject /> Test next block 1`] = `
 <div
-  className="sc-bdVaJa kVJIWL"
+  className="sc-bdVaJa lcmtfW"
 >
   <h2
     className="next"
@@ -60,7 +60,7 @@ exports[`<Subject /> Test next block 1`] = `
 
 exports[`<Subject /> Test now block 1`] = `
 <div
-  className="sc-bdVaJa kVJIWL"
+  className="sc-bdVaJa lcmtfW"
 >
   <h1
     className="now"

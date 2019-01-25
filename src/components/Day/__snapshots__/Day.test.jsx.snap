@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Day /> Snapshot 1`] = `
+<div
+  className="day"
+>
+  <h2 />
+  <div
+    className="sc-bdVaJa lcmtfW"
+  >
+    <p
+      className="subject-name"
+    >
+      Math
+    </p>
+    <p
+      className="subject-classroom"
+    >
+      16
+    </p>
+    <div
+      className="hour_wrapper"
+    >
+      <div
+        className="hour"
+      />
+    </div>
+  </div>
+</div>
+`;
