@@ -2,7 +2,7 @@
   "name": "plan-lekcji",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://butterfly-pn.github.io/lesson-plan",
+  "homepage": "https://plan-zsk.netlify.com",
   "dependencies": {
     "color-string": "^1.5.3",
     "left-pad": "^1.3.0",
