@@ -16,4 +16,5 @@ npm run test # to run tests
 
 ## Contributing
 
-I am open for any kind of contributions - opinions, questions, UX/UI issues and pull requests :wink:
+I am open for any kind of contributions - opinions, questions, UX/UI issues and pull requests :wink:.
+You can contact me here: pniedzwiedzinski19@gmail.com
