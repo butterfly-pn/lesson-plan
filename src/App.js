@@ -44,18 +44,37 @@ class App extends Component {
     super(props);
     this.currentDayRef = React.createRef();
     this.state = {
-      plan: null,
+      plan: this.getPlanFromLocalStorage(),
       day: this.getCurrentDay(),
-      currentClass: "2E",
+      currentClass: localStorage.getItem("plan-klasa") || "2E",
       loading: true
     };
-    this.getPlan();
+    if (!this.state.plan) {
+      this.getPlan();
+    } else {
+      this.state.loading = false;
+    }
   }
+
+  getPlanFromLocalStorage = () => {
+    let c = localStorage.getItem("plan-klasa") || "2E";
+    let plan = JSON.parse(localStorage.getItem("plan" + c));
+    if (plan) {
+      return plan.plan;
+    }
+    return null;
+  };
+
+  setClass = c => {
+    localStorage.setItem("plan-klasa", c);
+    this.setState({ currentClass: c });
+    return c;
+  };
 
   getCurrentDay = () => {
     let d = new Date();
     let n = d.getDay();
-    return n;
+    return n - 1;
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -66,31 +85,40 @@ class App extends Component {
   }
 
   getPlan = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const plan = xhr.responseText;
-        let parsed = tabletojson.convert(plan);
-
-        this.setState({ plan: parsed[2], loading: false });
-      }
-    };
-    // Using outside service becouse of CORS policy
-    xhr.open(
-      "GET",
-      `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/o${classes.indexOf(
-        this.state.currentClass
-      ) + 1}.html`
-    );
-    xhr.send();
+    let plan = localStorage.getItem("plan" + this.state.currentClass);
+    if (plan && Date.now() - JSON.parse(plan).date < 604800000) {
+      this.setState({ plan: JSON.parse(plan).plan, loading: false });
+    } else {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const plan = xhr.responseText;
+          let parsed = tabletojson.convert(plan);
+          localStorage.setItem(
+            "plan" + this.state.currentClass,
+            JSON.stringify({ plan: parsed[2], date: Date.now() })
+          );
+          this.setState({ plan: parsed[2], loading: false });
+        }
+      };
+      // Using outside service becouse of CORS policy
+      xhr.open(
+        "GET",
+        `https://cors-escape.herokuapp.com/http://zsk.poznan.pl/plany/tk/plany/o${classes.indexOf(
+          this.state.currentClass
+        ) + 1}.html`
+      );
+      xhr.send();
+    }
   };
 
   render() {
+    console.log(this.state.plan);
     return (
       <div className="App">
         <select
           onChange={e => {
-            this.setState({ currentClass: e.target.value });
+            this.setClass(e.target.value);
           }}
           value={this.state.currentClass}
         >
@@ -106,7 +134,7 @@ class App extends Component {
             {weekDays.map((day, i) => (
               <Day
                 id={i}
-                key={day}
+                key={i}
                 day={day}
                 subjects={this.state.plan.map(row => {
                   // Filter row to display only data from current day.
@@ -114,7 +142,7 @@ class App extends Component {
                   let subject = rowData.split(" ");
                   const classroom = subject.pop();
                   return {
-                    key: row.Godz + rowData,
+                    key: day + row.Godz,
                     name: rowData.slice(0, rowData.length - classroom.length),
                     classroom: classroom,
                     hour: row.Godz.split("-")[0]

@@ -29,11 +29,11 @@ import styles from "./style.module.scss";
 export default class Day extends React.Component {
   render() {
     return (
-      <div className={styles.day} id={this.props.id}>
+      <div className={styles.day} id={this.props.day}>
         <h2>{this.props.day}</h2>
-        {this.props.subjects.map((subject, i) => (
-          <>
-            {subject.name ? (
+        {this.props.subjects.map((subject, i) => {
+          if (subject.name) {
+            return (
               <Subject
                 key={subject.key}
                 name={subject.name}
@@ -41,11 +41,11 @@ export default class Day extends React.Component {
                 hour={subject.hour}
                 color="#fa77fc"
               />
-            ) : (
-              <div className={styles.free} />
-            )}
-          </>
-        ))}
+            );
+          } else {
+            return <div key={subject.key} className={styles.free} />;
+          }
+        })}
       </div>
     );
   }
