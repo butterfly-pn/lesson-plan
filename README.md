@@ -1,19 +1,20 @@
-# Lesson plan
+# Lesson plan - plan lekcji ([https://plan-zsk.netlify.com](https://plan-zsk.netlify.com))
 
-Lesson plan parsing web app for offline access to the school plan thanks to PWA. Made with create-react-app.
+Parser szkolnego planu lekcji pozwalający na dostęp offline dzięki PWA. Aplikacja zrobiona za pomocą `create-react-app`.
 
 ## Development
 
 ```bash
-# clone repo and cd into it
+# zklonuj repozytorium
 
-npm install -D # to install all dependencies
+npm install -D # zainstaluj wszystkie zależności
 
-npm run start # to run local development server and test the app
+npm run start # uruchomienie aplikacji
 
-npm run test # to run tests
+npm run test # uruchomienie testów
 ```
 
 ## Contributing
 
-I am open for any kind of contributions - opinions, questions, UX/UI issues and pull requests :wink:
+Jestem otwarty na wszelkie opinie, pytania, uwagi do designu no i oczywiście propozycje zmian :wink:.
+Kontakt: pniedzwiedzinski19@gmail.com
