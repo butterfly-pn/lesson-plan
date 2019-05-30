@@ -13,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/lesson-plan/",
-  "scope": "/lesson-plan/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#379bf2",
