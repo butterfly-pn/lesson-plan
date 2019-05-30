@@ -104,7 +104,7 @@ class App extends Component {
       // Using outside service becouse of CORS policy
       xhr.open(
         "GET",
-        `https://cors-escape.herokuapp.com/http://pliki.zsk.poznan.pl/plany/technikum/plany/o${classes.indexOf(
+        `https://cors-anywhere.herokuapp.com/http://pliki.zsk.poznan.pl/plany/technikum/plany/o${classes.indexOf(
           this.state.currentClass
         ) + 1}.html`
       );
